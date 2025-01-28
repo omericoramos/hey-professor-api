@@ -13,7 +13,7 @@ class StoreController extends Controller
     {
         Question::create([
             'question' => $request->question,
-            'user_id' => Auth::user()->id
+            'user_id'  => Auth::user()->id,
         ]);
     }
 }

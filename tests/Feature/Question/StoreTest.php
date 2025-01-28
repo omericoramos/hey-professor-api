@@ -3,8 +3,7 @@
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
-use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\postJson;
+use function Pest\Laravel\{assertDatabaseHas, postJson};
 
 it('should be able to store a question', function () {
 
@@ -13,11 +12,11 @@ it('should be able to store a question', function () {
     Sanctum::actingAs($user, ['*']);
 
     postJson(route('question.store'), [
-        'question' => 'Lorem ipsum Jeremias?'
+        'question' => 'Lorem ipsum Jeremias?',
     ])->assertSuccessful();
 
     assertDatabaseHas('questions', [
         'question' => 'Lorem ipsum Jeremias?',
-        'user_id' => $user->id
+        'user_id'  => $user->id,
     ]);
 });

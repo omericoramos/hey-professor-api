@@ -30,8 +30,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'question.required' => 'The question field is required.',
-            'question.string' => 'The question must be a string.',
-            'question.max' => 'The question must be at most 255 characters.',
+            'question.string'   => 'The question must be a string.',
+            'question.max'      => 'The question must be at most 255 characters.',
         ];
     }
 }
