@@ -36,3 +36,17 @@ test('after storing a new question, i need to make sure that it creates on _draf
         'user_id'  => $user->id,
     ]);
 });
+
+describe('validation rules', function () {
+
+    it('question field is required', function () {
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user, ['*']);
+
+        postJson(route('question.store'), [])
+            ->assertJsonValidationErrors([
+                'question' => 'required'
+            ]);
+    });
+});
