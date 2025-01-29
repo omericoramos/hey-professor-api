@@ -12,7 +12,8 @@ class Question extends Model
     use Notifiable;
 
     protected $fillable = [
-        'user_id',
         'question',
+        'status',
+        'user_id',
     ];
 }

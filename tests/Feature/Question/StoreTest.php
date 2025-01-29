@@ -20,3 +20,19 @@ it('should be able to store a question', function () {
         'user_id'  => $user->id,
     ]);
 });
+
+test('after storing a new question, i need to make sure that it creates on _draft_ status', function () {
+    $user = User::factory()->create();
+
+    Sanctum::actingAs($user, ['*']);
+
+    postJson(route('question.store'), [
+        'question' => 'Lorem ipsum Jeremias?',
+    ])->assertSuccessful();
+
+    assertDatabaseHas('questions', [
+        'question' => 'Lorem ipsum Jeremias?',
+        'status'   => 'draft',
+        'user_id'  => $user->id,
+    ]);
+});
