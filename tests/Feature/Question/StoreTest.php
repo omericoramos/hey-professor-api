@@ -2,7 +2,6 @@
 
 use App\Models\Question;
 use App\Models\User;
-use App\Rules\WithQuestionMark;
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\{assertDatabaseHas, postJson};
