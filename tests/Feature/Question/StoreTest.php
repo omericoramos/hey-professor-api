@@ -96,4 +96,27 @@ describe('validation rules', function () {
             'question' => 'The question already exists.'
         ]);
     });
+
+    it('after creting a new question we should return a status 201 with the following format', function () {
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user, ['*']);
+
+        $request = postJson(route('question.store'), [
+            'question' => 'Lorem ipsum Jeremias?',
+        ])->assertCreated();
+
+        $question = Question::latest()->first();
+
+        $request->assertJson([
+            'data' => [
+                'id' => $question->id,
+                'question' => $question->question,
+                'status' => $question->status,
+                'created_at' => $question->created_at->format('Y-m-d'),
+                'updated_at' => $question->updated_at->format('Y-m-d')
+            ]
+
+        ]);
+    });
 });
