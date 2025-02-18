@@ -8,7 +8,7 @@ Route::middleware('auth:sanctum')->group(
     function () {
         Route::post('/question.store', [StoreController::class, '__invoke'])
             ->name('question.store');
-        Route::put('question/{id}', UpdateController::class, '__invoke')
+        Route::put('question/{question}', UpdateController::class, '__invoke')
             ->name('question.update');
     }
 );
