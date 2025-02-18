@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Question;
 
+use App\Rules\WithQuestionMark;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -22,7 +23,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => ['required', 'string', 'max:255'],
+            'question' => ['required', 'string', 'max:255', new WithQuestionMark],
         ];
     }
 
@@ -32,6 +33,7 @@ class StoreRequest extends FormRequest
             'question.required' => 'The question field is required.',
             'question.string'   => 'The question must be a string.',
             'question.max'      => 'The question must be at most 255 characters.',
+            'question.with_question_mark'  => 'The question must end with a question mark. (?)',
         ];
     }
 }
