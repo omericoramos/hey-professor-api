@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => ['required', 'string', 'min:10','max:255', new WithQuestionMark],
+            'question' => ['required', 'string', 'min:10','max:255', new WithQuestionMark,'unique:questions,question'],
         ];
     }
 
@@ -35,6 +35,7 @@ class StoreRequest extends FormRequest
             'question.max'      => 'The question must be at most 255 characters.',
             'question.min'      => 'The question must be at least 10 characters.',
             'question.with_question_mark'  => 'The question must end with a question mark. (?)',
+            'question.unique'   => 'The question already exists.'
         ];
     }
 }

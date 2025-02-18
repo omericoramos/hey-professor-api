@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Question;
 use App\Models\User;
 use App\Rules\WithQuestionMark;
 use Laravel\Sanctum\Sanctum;
@@ -70,10 +71,29 @@ describe('validation rules', function () {
         Sanctum::actingAs($user, ['*']);
 
         postJson(route('question.store'), [
-            'question' => 'Lorem'
+            'question' => 'Lorem?'
         ])
             ->assertJsonValidationErrors([
                 'question' => 'The question must be at least 10 characters.'
             ]);
+    });
+
+    it('question should be unique', function () {
+
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user, ['*']);
+
+        Question::create([
+            'question' => 'Lorem ipsum Jeremias?',
+            'status'   => 'draft',
+            'user_id'  => $user->id,
+        ]);
+
+        postJson(route('question.store'), [
+            'question' => 'Lorem ipsum Jeremias?',
+        ])->assertJsonValidationErrors([
+            'question' => 'The question already exists.'
+        ]);
     });
 });
