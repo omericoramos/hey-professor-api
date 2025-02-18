@@ -2,30 +2,24 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuestionResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+    // $this->resource referencia ao model Question
     public function toArray(Request $request): array
     {
-        /** @var Question $this */
         return [
-            'id' => $this->id,
-            'question' => $this->question,
-            'status' => $this->status,
+            'id' => $this->resource->id,
+            'question' => $this->resource->question,
+            'status' => $this->resource->status,
             'created_by' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name
+                'id' => $this->resource->user->id,
+                'name' => $this->resource->user->name
             ],
-            'created_at' => $this->created_at->format('Y-m-d H:i'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i')
+            'created_at' => $this->resource->created_at->format('Y-m-d H:i'),
+            'updated_at' => $this->resource->updated_at->format('Y-m-d H:i')
         ];
     }
 }
