@@ -3,7 +3,7 @@
 use App\Models\Question;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
- use function Pest\Laravel\{assertDatabaseHas, putJson};
+use function Pest\Laravel\{assertDatabaseHas, postJson, put, putJson};
 
 it('should be able to update a question', function () {
     $user = User::factory()->create();
@@ -49,4 +49,92 @@ it('should be able to update a question and return a 200 status code with the up
             'updated_at' => $question->updated_at->format('Y-m-d H:i')
         ]
     ]);
+});
+
+describe('validation rules', function () {
+
+    it('question field is required', function () {
+        $user = User::factory()->create();
+        $question = Question::factory()->create([
+            'user_id' => $user->id
+        ]);
+
+        Sanctum::actingAs($user, ['*']);
+
+
+        putJson(route('question.update', $question), [
+            'question' => ''
+        ])->assertJsonValidationErrors([
+            'question' => 'required'
+        ]);
+    });
+
+    it('question ending with a question mark', function () {
+        $user = User::factory()->create();
+        $question = Question::factory()->create([
+            'user_id' => $user->id
+        ]);
+        Sanctum::actingAs($user, ['*']);
+
+        putJson(route('question.update', $question), [
+            'question' => 'Lorem ipsum Omerico',
+        ])->assertJsonValidationErrors([
+            'question' => 'The question must end with a question mark. (?)'
+        ]);
+    });
+
+    it('question must contain at least 10 characters', function () {
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user, ['*']);
+        $question = Question::factory()->create([
+            'user_id' => $user->id
+        ]);
+        putJson(route('question.update', $question), [
+            'question' => 'Lorem?'
+        ])
+            ->assertJsonValidationErrors([
+                'question' => 'The question must be at least 10 characters.'
+            ]);
+    });
+
+    it('question should be unique', function () {
+
+        $user = User::factory()->create();
+
+        Question::factory()->create([
+            'user_id' => $user->id,
+            'question' => 'Lorem ipsum Jeremias?',
+            'status'   => 'draft'
+        ]);
+
+        $question = Question::factory()->create([
+            'user_id' => $user->id
+        ]);
+
+        Sanctum::actingAs($user, ['*']);
+
+        putJson(route('question.update', $question), [
+            'question' => 'Lorem ipsum Jeremias?',
+        ])->assertJsonValidationErrors([
+            'question' => 'The question already exists.'
+        ]);
+    });
+
+    it('question should be unique only if id is different', function () {
+
+        $user = User::factory()->create();
+
+        $question =  Question::factory()->create([
+            'user_id' => $user->id,
+            'question' => 'Lorem ipsum Jeremias?',
+            'status'   => 'draft'
+        ]);
+
+        Sanctum::actingAs($user, ['*']);
+
+        putJson(route('question.update', $question), [
+            'question' => 'Lorem ipsum Jeremias?',
+        ])->assertOk();
+    });
 });
