@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests\Question;
 
-use App\Rules\WithQuestionMark;
-use App\Rules\OnlyAsDraft;
+use App\Rules\{OnlyAsDraft, WithQuestionMark};
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -28,6 +27,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         $question = $this->route()->question; // @phpstan-ignore-line
+
         return [
             'question' => [
                 'required',
