@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Question\ArchiveController;
 use App\Http\Controllers\Question\DeleteController;
 use App\Http\Controllers\Question\StoreController;
 use App\Http\Controllers\Question\UpdateController;
@@ -14,5 +15,7 @@ Route::middleware('auth:sanctum')->prefix('question')->group(
             ->name('question.update');
         Route::delete('/{question}', DeleteController::class, '__invoke')
             ->name('question.delete');
+        Route::delete('/{question}/archive', ArchiveController::class, '__invoke')
+            ->name('question.archive');
     }
 );
