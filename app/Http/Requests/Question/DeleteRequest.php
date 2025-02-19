@@ -13,6 +13,7 @@ class DeleteRequest extends FormRequest
     public function authorize(): bool
     {
         $question = $this->route()->question; // @phpstan-ignore-line
+
         return FacadesGate::allows('delete', $question);
     }
 

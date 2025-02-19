@@ -1,10 +1,6 @@
 <?php
 
-use App\Http\Controllers\Question\ArchiveController;
-use App\Http\Controllers\Question\DeleteController;
-use App\Http\Controllers\Question\StoreController;
-use App\Http\Controllers\Question\UpdateController;
-
+use App\Http\Controllers\Question\{ArchiveController, DeleteController, StoreController, UpdateController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('question')->group(
@@ -15,7 +11,7 @@ Route::middleware('auth:sanctum')->prefix('question')->group(
             ->name('question.update');
         Route::delete('/{question}', DeleteController::class, '__invoke')
             ->name('question.delete');
-        Route::delete('/{question}/archive', ArchiveController::class, '__invoke')
+        Route::delete('/{question}/archive', ArchiveController::class)
             ->name('question.archive');
     }
 );
