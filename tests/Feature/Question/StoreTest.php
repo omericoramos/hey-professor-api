@@ -1,8 +1,6 @@
 <?php
 
-use App\Models\Question;
-use App\Models\User;
-use App\Rules\WithQuestionMark;
+use App\Models\{Question, User};
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\{assertDatabaseHas, postJson};
@@ -46,10 +44,9 @@ describe('validation rules', function () {
 
         Sanctum::actingAs($user, ['*']);
 
-
         postJson(route('question.store'), [])
             ->assertJsonValidationErrors([
-                'question' => 'required'
+                'question' => 'required',
             ]);
     });
 
@@ -61,7 +58,7 @@ describe('validation rules', function () {
         postJson(route('question.store'), [
             'question' => 'Lorem ipsum Omerico',
         ])->assertJsonValidationErrors([
-            'question' => 'The question must end with a question mark. (?)'
+            'question' => 'The question must end with a question mark. (?)',
         ]);
     });
 
@@ -71,10 +68,10 @@ describe('validation rules', function () {
         Sanctum::actingAs($user, ['*']);
 
         postJson(route('question.store'), [
-            'question' => 'Lorem?'
+            'question' => 'Lorem?',
         ])
             ->assertJsonValidationErrors([
-                'question' => 'The question must be at least 10 characters.'
+                'question' => 'The question must be at least 10 characters.',
             ]);
     });
 
@@ -93,7 +90,7 @@ describe('validation rules', function () {
         postJson(route('question.store'), [
             'question' => 'Lorem ipsum Jeremias?',
         ])->assertJsonValidationErrors([
-            'question' => 'The question already exists.'
+            'question' => 'The question already exists.',
         ]);
     });
 
@@ -108,16 +105,16 @@ describe('validation rules', function () {
         $question = Question::latest()->first();
         $request->assertJson([
             'data' => [
-                'id' => $question->id,
-                'question' => $question->question,
-                'status' => $question->status,
+                'id'         => $question->id,
+                'question'   => $question->question,
+                'status'     => $question->status,
                 'created_by' => [
-                    'id' => $user->id,
-                    'name' => $user->name
+                    'id'   => $user->id,
+                    'name' => $user->name,
                 ],
                 'created_at' => $question->created_at->format('Y-m-d H:i'),
-                'updated_at' => $question->updated_at->format('Y-m-d H:i')
-            ]
+                'updated_at' => $question->updated_at->format('Y-m-d H:i'),
+            ],
         ]);
     });
 });
