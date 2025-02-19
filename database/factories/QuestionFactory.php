@@ -2,8 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Question;
-use App\Models\User;
+use App\Models\{User};
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +19,8 @@ class QuestionFactory extends Factory
     {
         return [
             'question' => fake()->text(20) . '?',
-            'status' => 'draft',
-            'user_id' => User::factory(),
+            'status'   => 'draft',
+            'user_id'  => User::factory(),
         ];
     }
 }

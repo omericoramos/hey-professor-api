@@ -8,5 +8,6 @@ function user(): ?User
     if (Auth::check()) {
         return Auth::user();
     }
+
     return null;
 }

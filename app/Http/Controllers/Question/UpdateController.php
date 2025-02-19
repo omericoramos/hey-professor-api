@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Question\UpdateRequest;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
-use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
@@ -14,6 +13,7 @@ class UpdateController extends Controller
     {
         $question->question = $updateRequest->question;
         $question->save();
+
         return QuestionResource::make($question);
     }
 }
