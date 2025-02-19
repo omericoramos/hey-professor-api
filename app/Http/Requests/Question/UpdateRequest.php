@@ -26,6 +26,7 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $question = $this->route()->question; // @phpstan-ignore-line
         return [
             'question' => [
                 'required',
@@ -33,8 +34,8 @@ class UpdateRequest extends FormRequest
                 'min:10',
                 'max:255',
                 new WithQuestionMark(),
-                new OnlyAsDraft($this->route()->question), //@phpstan-ignore-line
-                Rule::unique('questions')->ignore($this->route()->question->id), //@phpstan-ignore-line
+                new OnlyAsDraft($question),
+                Rule::unique('questions')->ignoreModel($question),
             ],
         ];
     }
