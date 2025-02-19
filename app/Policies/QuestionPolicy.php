@@ -43,7 +43,7 @@ class QuestionPolicy
      */
     public function delete(User $user, Question $question): bool
     {
-        return false;
+        return $user->is($question->user);
     }
 
     /**

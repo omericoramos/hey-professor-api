@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Question;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Question\UpdateRequest;
 use App\Http\Resources\QuestionResource;
+use App\Http\Requests\Question\UpdateRequest;
 use App\Models\Question;
 
 class UpdateController extends Controller
