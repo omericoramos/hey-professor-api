@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\Question;
 
-use App\Rules\{OnlyAsDraft, WithQuestionMark};
+use App\Rules\WithQuestionMark;
+use App\Rules\OnlyAsDraft;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
