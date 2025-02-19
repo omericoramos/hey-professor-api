@@ -138,3 +138,33 @@ describe('validation rules', function () {
         ])->assertOk();
     });
 });
+
+
+describe('security', function () {
+
+    // garantindo que somente o usuário que criou a pergunta possa atualizar-la
+    test('only the person who created the question can update it', function () {
+        $user = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $question = Question::factory()->create([
+            'question' => 'Pregunta original?',
+            'status' => 'draft',
+            'user_id' => $user->id
+        ]);
+
+        // Logo com o segundo usuário
+        Sanctum::actingAs($user2, ['*']);
+
+        putJson(route('question.update', $question), [
+            'question' => 'Actualizado a pergunta?'
+        ])->assertForbidden(); // deve negar a atualização da pergunta
+
+        // garante que nada foi atualizado na pergunta
+        assertDatabaseHas('questions', [
+            'question' => 'Pregunta original?',
+            'user_id' => $user->id,
+            'status' => 'draft'
+        ]);
+    });
+});
