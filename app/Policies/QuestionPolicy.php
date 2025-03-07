@@ -49,13 +49,9 @@ class QuestionPolicy
     {
         return $user->is($question->user);
     }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
     public function restore(User $user, Question $question): bool
     {
-        return false;
+        return $user->is($question->user);
     }
 
     /**
