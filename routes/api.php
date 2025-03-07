@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Question\{ArchiveController, DeleteController, RestoreController, StoreController, UpdateController};
+use App\Http\Controllers\Question\{ArchiveController, DeleteController, PublishController, RestoreController, StoreController, UpdateController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('question')->group(
@@ -15,5 +15,7 @@ Route::middleware('auth:sanctum')->prefix('question')->group(
             ->name('question.archive');
         Route::put('/{question}/restore', RestoreController::class)
             ->name('question.restore');
+        Route::put('/{question}/publish', PublishController::class)
+            ->name('question.publish');
     }
 );
