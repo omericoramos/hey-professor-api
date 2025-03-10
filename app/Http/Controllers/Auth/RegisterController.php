@@ -10,7 +10,11 @@ class RegisterController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $request['password'] = password_hash($request->password,null);
-        User::insert($request->all());
+        $data = request()->validate([
+            'name' => ['required', 'min:3', 'max:60']
+        ]);
+        dd($data);
+        // $data['password'] = password_hash($request->password,null);
+        // User::insert($data);
     }
 }
