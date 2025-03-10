@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Question\{ArchiveController, DeleteController, PublishController, RestoreController, StoreController, UpdateController};
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('question')->group(
@@ -18,4 +19,10 @@ Route::middleware('auth:sanctum')->prefix('question')->group(
         Route::put('/{question}/publish', PublishController::class)
             ->name('question.publish');
     }
+
 );
+Route::prefix('user')->group(function () {
+
+    Route::post('/register', RegisterController::class)
+        ->name('user.register');
+});
